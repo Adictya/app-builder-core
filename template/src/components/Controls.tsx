@@ -41,7 +41,6 @@ const Controls = (props: any) => {
   // const {primaryColor} = useContext(ColorContext);
   // const {messageStore} = useContext(ChatContext);
   const [screenshareActive, setScreenshareActive] = useState(false);
-  const [whiteboardActive, setWhiteboardActive] = useState(false);
   const {
     // participantsView,
     // setParticipantsView,
@@ -107,18 +106,7 @@ const Controls = (props: any) => {
         )}
         {!mobileAndTabletCheck() ? (
           <View style={{alignSelf: 'center'}}>
-            <WhiteboardButton
-              whiteBoardActive={whiteboardActive}
-              setWhiteBoardActive={setWhiteboardActive}
-            />
-            {/* <Text
-            style={{
-              textAlign: 'center',
-              marginTop: 5,
-              color: $config.PRIMARY_COLOR,
-            }}>
-            Switch
-          </Text> */}
+            <WhiteboardButton setLayout={setLayout} />
           </View>
         ) : (
           <></>

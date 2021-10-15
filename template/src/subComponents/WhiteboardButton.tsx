@@ -14,66 +14,38 @@ import React, {useContext, useEffect, useRef} from 'react';
 import {Image, TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import icons from '../assets/icons';
 import ColorContext from '../components/ColorContext';
+import Layout from './LayoutEnum';
 
-import WhiteWebSdk from 'white-web-sdk';
-import RtcEngine from 'react-native-agora';
+import {WhiteboardContext} from '../components/WhiteboardConfigure';
+
+// import RtcEngine from 'react-native-agora';
 import useMount from '../components/useMount';
 
-const WhiteboardOld = () => {
-  // const [whiteBoardParams, setWhiteBoardParams] = useState({
-  //   uuid: null,
-  // });
-
-  const roomUuid = '7ff876b02c2311ecb631d7c9baf6f921';
-
-  const createRoom = async () => {
-    const roomDetails = await fetch('https://api.netless.link/v5/rooms', {
-      method: 'POST',
-      headers: {
-        token: $config.WHITE_SDK_TOKEN,
-        region: 'cn-hz',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        isRecord: false,
-      }),
-    });
-
-    return roomDetails.json();
-  };
-
-  const printUUID = async () => {
-    const roomObject = await createRoom();
-    console.log('grood2', roomObject);
-  };
-
-  useMount(() => {
-    // printUUID();
-  });
-
-  return <></>;
-};
-
-interface WhiteBoardButtonProps {
-  whiteBoardActive: boolean;
-  setWhiteBoardActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const WhiteboardButton = (props: WhiteBoardButtonProps) => {
+const WhiteboardButton = (props) => {
   const {primaryColor} = useContext(ColorContext);
-  const {whiteBoardActive, setWhiteBoardActive} = props;
+  const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom} =
+    useContext(WhiteboardContext);
+  const {setLayout} = props;
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        if (whiteboardActive) {
+          leaveWhiteboardRoom();
+        } else {
+          joinWhiteboardRoom();
+          setLayout(Layout.Pinned);
+        }
+      }}>
       <View
         style={
-          whiteBoardActive
+          whiteboardActive
             ? style.greenLocalButton
             : [style.localButton, {borderColor: primaryColor}]
         }>
         <Image
           source={{
-            uri: whiteBoardActive
+            uri: whiteboardActive
               ? icons.screenshareOffIcon
               : icons.screenshareIcon,
           }}
@@ -87,7 +59,7 @@ const WhiteboardButton = (props: WhiteBoardButtonProps) => {
           marginTop: 5,
           color: $config.PRIMARY_COLOR,
         }}>
-        Draw
+        {whiteboardActive ? 'Draw' : 'No Draw'}
       </Text>
     </TouchableOpacity>
   );

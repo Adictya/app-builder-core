@@ -66,7 +66,8 @@ const useChatNotification = (
 };
 
 const NotificationControl = ({children, chatDisplayed, setSidePanel}) => {
-  const {messageStore, privateMessageStore, userList, localUid} = useContext(ChatContext);
+  const {messageStore, privateMessageStore, userList, localUid} =
+    useContext(ChatContext);
   const [
     lastCheckedPublicState,
     setLastCheckedPublicState,
@@ -117,8 +118,13 @@ const NotificationControl = ({children, chatDisplayed, setSidePanel}) => {
       messageStore[messageStore.length - 1]?.uid !== localUid
     ) {
       Toast.show({
-        text1: messageStore[messageStore.length - 1]?.msg.length > 50 ? messageStore[messageStore.length - 1]?.msg.slice(1, 50) + '...' : messageStore[messageStore.length - 1]?.msg.slice(1),
-        text2: userList[messageStore[messageStore.length - 1]?.uid] ? 'From: ' + userList[messageStore[messageStore.length - 1]?.uid].name : '',
+        text1:
+          messageStore[messageStore.length - 1]?.msg.length > 50
+            ? messageStore[messageStore.length - 1]?.msg.slice(1, 50) + '...'
+            : messageStore[messageStore.length - 1]?.msg.slice(1),
+        text2: userList[messageStore[messageStore.length - 1]?.uid]
+          ? 'From: ' + userList[messageStore[messageStore.length - 1]?.uid].name
+          : '',
         visibilityTime: 1000,
         onPress: () => {
           setSidePanel(SidePanelType.Chat);
