@@ -17,6 +17,7 @@ import RtcContext from '../../agora-rn-uikit/src/RtcContext';
 import {messageStoreInterface} from './ChatContext';
 import {Platform} from 'react-native';
 import {backOff} from 'exponential-backoff';
+import {WhiteboardContext} from './WhiteboardConfigure';
 
 export enum mType {
   Control = '0',
@@ -34,6 +35,8 @@ const RtmConfigure = (props: any) => {
   const {dispatch} = useContext(RtcContext);
   const [messageStore, setMessageStore] = useState<messageStoreInterface[]>([]);
   const [privateMessageStore, setPrivateMessageStore] = useState({});
+  const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom} =
+    useContext(WhiteboardContext);
   const [login, setLogin] = useState<boolean>(false);
   const [userList, setUserList] = useState({});
   let engine = useRef<RtmEngine>(null!);
@@ -205,6 +208,10 @@ const RtmConfigure = (props: any) => {
             text.slice(1) === controlMessageEnum.cloudRecordingUnactive
           ) {
             setRecordingActive(false);
+          } else if (text.slice(1) === controlMessageEnum.whiteboardStarted) {
+            joinWhiteboardRoom();
+          } else if (text.slice(1) === controlMessageEnum.whiteboardStoppped) {
+            leaveWhiteboardRoom();
           }
         } else if (text[0] === mType.Normal) {
           addMessageToStore(uid, text, ts);
@@ -350,7 +357,8 @@ const RtmConfigure = (props: any) => {
         engine: engine.current,
         localUid: localUid.current,
         userList: userList,
-      }}>
+      }}
+    >
       {login ? props.children : <></>}
     </ChatContext.Provider>
   );

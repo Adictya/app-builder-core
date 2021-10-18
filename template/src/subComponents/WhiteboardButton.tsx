@@ -20,21 +20,30 @@ import {WhiteboardContext} from '../components/WhiteboardConfigure';
 
 // import RtcEngine from 'react-native-agora';
 import useMount from '../components/useMount';
+import ChatContext, {controlMessageEnum} from '../components/ChatContext';
 
 const WhiteboardButton = (props) => {
   const {primaryColor} = useContext(ColorContext);
   const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom} =
     useContext(WhiteboardContext);
+  const { userList ,sendControlMessage } = useContext(ChatContext)
   const {setLayout} = props;
+
+  useEffect(()=>{
+    if(whiteboardActive){
+          setLayout(Layout.Pinned);
+      }
+    },[whiteboardActive])
 
   return (
     <TouchableOpacity
       onPress={() => {
         if (whiteboardActive) {
           leaveWhiteboardRoom();
+          sendControlMessage(controlMessageEnum.whiteboardStoppped)
         } else {
           joinWhiteboardRoom();
-          setLayout(Layout.Pinned);
+          sendControlMessage(controlMessageEnum.whiteboardStarted)
         }
       }}>
       <View
@@ -59,7 +68,7 @@ const WhiteboardButton = (props) => {
           marginTop: 5,
           color: $config.PRIMARY_COLOR,
         }}>
-        {whiteboardActive ? 'Draw' : 'No Draw'}
+        Draw
       </Text>
     </TouchableOpacity>
   );

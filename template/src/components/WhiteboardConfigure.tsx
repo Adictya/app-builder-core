@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {createContext} from 'react';
 import {WhiteWebSdk} from 'white-web-sdk';
 import useMount from './useMount';
@@ -6,6 +6,7 @@ import useMount from './useMount';
 export const WhiteboardContext = createContext({});
 
 const WhiteboardConfigure = (props) => {
+  // TODO: Make the state more granular
   const [whiteboardActive, setWhiteboardActive] = useState(false);
   const whiteWebSdkClient = useRef();
   const whiteboardRoom = useRef();
@@ -55,7 +56,8 @@ const WhiteboardConfigure = (props) => {
 
   return (
     <WhiteboardContext.Provider
-      value={{whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom}}>
+      value={{whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom}}
+    >
       {props.children}
     </WhiteboardContext.Provider>
   );
