@@ -1,13 +1,19 @@
 import React, {useState, useRef, useContext} from 'react';
 import {createContext} from 'react';
-import {WhiteWebSdk} from 'white-web-sdk';
+import {WhiteWebSdk, RoomPhase, DefaultHotKeys} from 'white-web-sdk';
 import useMount from './useMount';
+import ToolBox from '@netless/tool-box';
+import ChatContext from './ChatContext';
 
 export const WhiteboardContext = createContext({});
 
 const WhiteboardConfigure = (props) => {
   // TODO: Make the state more granular
   const [whiteboardActive, setWhiteboardActive] = useState(false);
+  const [whiteboardPhase, setWhiteboardPhase] = useState(
+    RoomPhase.Disconnected,
+  );
+
   const whiteWebSdkClient = useRef();
   const whiteboardRoom = useRef();
   const whiteBoardProps = {
@@ -16,17 +22,45 @@ const WhiteboardConfigure = (props) => {
       'NETLESSROOM_YWs9MWg0VXFXVDR5Yi1RUC1QYyZub25jZT0xNjM0Mjk4MzQzMzQ2MDAmcm9sZT0wJnNpZz05NTI1ODhjYjBlYWY4ZTY2MzVmNTBhYjkzNWYwN2E5MzBkOTA3NDE1Y2U0YTg4ZDkwN2M5MTM4YzdkOTZlNWYyJnV1aWQ9N2ZmODc2YjAyYzIzMTFlY2I2MzFkN2M5YmFmNmY5MjE',
     wbAppIdentifier: ' ',
   };
+  const whiteboardElement = useRef();
+
+  const updateRoomPhase = (phase: RoomPhase) => {
+    setWhiteboardPhase(phase);
+  };
 
   const joinWhiteboardRoom = () => {
     setWhiteboardActive(true);
     whiteWebSdkClient.current
-      .joinRoom({
-        uuid: whiteBoardProps.wbUuid,
-        roomToken: whiteBoardProps.wbToken,
-      })
+      .joinRoom(
+        {
+          uuid: whiteBoardProps.wbUuid,
+          roomToken: whiteBoardProps.wbToken,
+          floatBar: true,
+          isWritable: true,
+          hotKeys: {
+            ...DefaultHotKeys,
+            changeToSelector: 's',
+            changeToLaserPointer: 'z',
+            changeToPencil: 'p',
+            changeToRectangle: 'r',
+            changeToEllipse: 'c',
+            changeToEraser: 'e',
+            changeToText: 't',
+            changeToStraight: 'l',
+            changeToArrow: 'a',
+            changeToHand: 'h',
+          },
+        },
+        {
+          onPhaseChanged: (phase: RoomPhase) => {
+            updateRoomPhase(phase);
+          },
+        },
+      )
       .then((room) => {
+        setWhiteboardActive(true);
         whiteboardRoom.current = room;
-        room.bindHtmlElement(document.getElementById('Whiteboard'));
+        room.bindHtmlElement(whiteboardElement.current);
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +68,7 @@ const WhiteboardConfigure = (props) => {
   };
 
   const leaveWhiteboardRoom = () => {
-    setWhiteboardActive(false);
+    setWhiteboardActive(0);
     whiteboardRoom.current
       .disconnect()
       .then(() => {
@@ -56,7 +90,14 @@ const WhiteboardConfigure = (props) => {
 
   return (
     <WhiteboardContext.Provider
-      value={{whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom}}
+      value={{
+        whiteboardActive,
+        joinWhiteboardRoom,
+        leaveWhiteboardRoom,
+        whiteboardRoom,
+        whiteboardPhase,
+        whiteboardElement,
+      }}
     >
       {props.children}
     </WhiteboardContext.Provider>
