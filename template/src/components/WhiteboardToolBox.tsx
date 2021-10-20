@@ -10,28 +10,35 @@
 *********************************************
 */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Pressable} from 'react-native';
-import { ApplianceNames} from 'white-web-sdk';
+import {ApplianceNames} from 'white-web-sdk';
 
 const WhiteboardToolBox = ({whiteboardRoom}) => {
+  const [selectedTool, setSelectedTool] = useState(ApplianceNames.pencil);
 
   const handleSelect = (applicanceName: ApplianceNames) => {
-      whiteboardRoom.current.setMemberState({
-          currentApplianceName: applicanceName
-        })
-    }
-  
+    setSelectedTool(applicanceName)
+    whiteboardRoom.current.setMemberState({
+      currentApplianceName: applicanceName,
+    });
+  };
+
   const handleClear = () => {
-      whiteboardRoom.current.cleanCurrentScene();
-    }
+    whiteboardRoom.current.cleanCurrentScene();
+  };
 
   return (
     <View style={style.toolboxContainer}>
       <View style={style.toolbox}>
-        <Pressable style={style.tool} onPress = {()=>{
+        <Pressable
+          style={
+            selectedTool === ApplianceNames.hand ? style.toolActive : style.tool
+          }
+          onPress={() => {
             handleSelect(ApplianceNames.hand);
-          }}>
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -47,9 +54,14 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             />
           </svg>
         </Pressable>
-        <Pressable style={style.tool} onPress = {()=>{
+        <Pressable
+          style={
+            selectedTool === ApplianceNames.hand ? style.toolActive : style.tool
+          }
+          onPress={() => {
             handleSelect(ApplianceNames.pencil);
-          }}>
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -65,9 +77,14 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             />
           </svg>
         </Pressable>
-        <Pressable style={style.tool} onPress = {()=>{
+        <Pressable
+          style={
+            selectedTool === ApplianceNames.pencil ? style.toolActive : style.tool
+          }
+          onPress={() => {
             handleSelect(ApplianceNames.eraser);
-          }}>
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
@@ -80,9 +97,14 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             <path d="M429.477,257.451L194.339,22.313c-5.212-5.212-12.143-8.083-19.515-8.083c-7.372,0-14.302,2.871-19.514,8.083L9.333,168.294  C3.314,174.312,0,182.314,0,190.824c0,8.511,3.314,16.512,9.333,22.53l209.963,209.963h83.339L429.477,296.48  C440.237,285.719,440.237,268.211,429.477,257.451z M174.825,29.23c3.365,0,6.529,1.31,8.908,3.689l117.264,117.264l-35.677,35.677  L148.056,68.597c-2.379-2.379-3.689-5.543-3.689-8.908c0-3.348,1.299-6.496,3.656-8.871l17.894-17.898  C168.296,30.54,171.46,29.23,174.825,29.23z M15,190.824c0-4.504,1.754-8.738,4.939-11.923l98.143-98.143  c6.605-5.056,16.115-4.581,22.156,1.458L254.602,196.58L134.186,316.995L19.939,202.748C16.754,199.563,15,195.328,15,190.824z   M296.422,408.317h-70.913l-80.716-80.716l120.415-120.415l104.136,104.136c6.575,6.575,6.575,17.272,0,23.847l0.112,0.113  L296.422,408.317z M418.871,285.873l-17.909,17.905c-2.374,2.35-5.517,3.646-8.86,3.646c-3.365,0-6.529-1.31-8.908-3.689  L275.927,196.468l35.677-35.677l107.267,107.267C423.782,272.969,423.782,280.961,418.871,285.873z" />
           </svg>
         </Pressable>
-        <Pressable style={style.tool} onPress = {()=>{
+        <Pressable
+          style={
+            selectedTool === ApplianceNames.eraser ? style.toolActive : style.tool
+          }
+          onPress={() => {
             handleClear();
-          }}>
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -129,13 +151,19 @@ const style = StyleSheet.create({
 
     elevation: 3,
   },
-  tool: {
+  toolActive: {
     height: 30,
     width: 30,
     borderRadius: 20,
     padding: 3,
     borderColor: $config.PRIMARY_COLOR,
     borderWidth: 2,
+  },
+  tool: {
+    height: 30,
+    width: 30,
+    borderRadius: 20,
+    padding: 3,
   },
 });
 
