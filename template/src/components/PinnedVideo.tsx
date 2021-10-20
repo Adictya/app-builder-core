@@ -32,6 +32,7 @@ import {WhiteboardContext} from './WhiteboardConfigure';
 import ToolBox from '@netless/tool-box';
 import RedoUndo from '@netless/redo-undo';
 import {RoomPhase} from 'white-web-sdk';
+import WhiteboardSurface from './WhiteboardSurface';
 
 const {topPinned} = layoutProps;
 
@@ -288,17 +289,7 @@ const PinnedVideo = () => {
         }
       >
         {whiteboardActive ? (
-          <View style={style.flex1}>
-            <View
-              style={style.WhiteBoardContainer}
-              nativeID="Whiteboard"
-              ref={whiteboardElement}
-            />
-            {false && whiteboardPhase === RoomPhase.Connected && (
-              <>
-              </>
-            )}
-          </View>
+            <WhiteboardSurface/>
         ) : (
           <MaxUidConsumer>
             {(maxUsers) => (

@@ -1,6 +1,6 @@
 import React, {useState, useRef, useContext} from 'react';
 import {createContext} from 'react';
-import {WhiteWebSdk, RoomPhase, DefaultHotKeys} from 'white-web-sdk';
+import {WhiteWebSdk, RoomPhase, DefaultHotKeys, RoomErrorLevel, EventPhase} from 'white-web-sdk';
 import useMount from './useMount';
 import ToolBox from '@netless/tool-box';
 import ChatContext from './ChatContext';
@@ -9,10 +9,8 @@ export const WhiteboardContext = createContext({});
 
 const WhiteboardConfigure = (props) => {
   // TODO: Make the state more granular
+  const [whiteboardState, setWhiteboardState] = useState(RoomPhase.Disconnected);
   const [whiteboardActive, setWhiteboardActive] = useState(false);
-  const [whiteboardPhase, setWhiteboardPhase] = useState(
-    RoomPhase.Disconnected,
-  );
 
   const whiteWebSdkClient = useRef();
   const whiteboardRoom = useRef();
@@ -25,7 +23,19 @@ const WhiteboardConfigure = (props) => {
   const whiteboardElement = useRef();
 
   const updateRoomPhase = (phase: RoomPhase) => {
-    setWhiteboardPhase(phase);
+    if(phase !== RoomPhase.Connected){
+      setWhiteboardState(phase)
+    }
+  };
+
+  const bindRoom = () => {
+    if(whiteboardRoom.current)
+    whiteboardRoom.current.bindHtmlElement(whiteboardElement.current);
+  };
+
+  const unBindRoom = () => {
+    if(whiteboardRoom.current)
+    whiteboardRoom.current.bindHtmlElement();
   };
 
   const joinWhiteboardRoom = () => {
@@ -58,9 +68,8 @@ const WhiteboardConfigure = (props) => {
         },
       )
       .then((room) => {
-        setWhiteboardActive(true);
         whiteboardRoom.current = room;
-        room.bindHtmlElement(whiteboardElement.current);
+        setWhiteboardState(RoomPhase.Connected)
       })
       .catch((err) => {
         console.log(err);
@@ -68,15 +77,14 @@ const WhiteboardConfigure = (props) => {
   };
 
   const leaveWhiteboardRoom = () => {
-    setWhiteboardActive(0);
+    setWhiteboardActive(false);
     whiteboardRoom.current
       .disconnect()
       .then(() => {
-        // setWhiteboardActive(false);
+        unBindRoom()
       })
       .catch((err) => {
         console.log(err);
-        // setWhiteboardActive(false);
       });
   };
 
@@ -94,8 +102,9 @@ const WhiteboardConfigure = (props) => {
         whiteboardActive,
         joinWhiteboardRoom,
         leaveWhiteboardRoom,
-        whiteboardRoom,
-        whiteboardPhase,
+        bindRoom,
+        unBindRoom,
+        whiteboardState,
         whiteboardElement,
       }}
     >
