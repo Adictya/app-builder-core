@@ -65,11 +65,11 @@ const GridVideo = (props: GridVideoProps) => {
   const min = useContext(MinUidContext);
   const {whiteboardActive} = useContext(WhiteboardContext);
   const wb: UidInterface = {
-          uid: 'whiteboard',
-          audio: false,
-          video: false,
-          streamType: 'high',
-    }
+    uid: 'whiteboard',
+    audio: false,
+    video: false,
+    streamType: 'high',
+  };
   const {primaryColor} = useContext(ColorContext);
   const {userList, localUid} = useContext(chatContext);
   const users = [...max, ...min, wb];
@@ -83,8 +83,8 @@ const GridVideo = (props: GridVideoProps) => {
   ]);
   const isDesktop = dim[0] > dim[1] + 100;
   let {matrix, dims} = useMemo(
-    () => layout(whiteboardActive?users.length:users.length-1, isDesktop),
-    [users.length, isDesktop,whiteboardActive],
+    () => layout(whiteboardActive ? users.length : users.length - 1, isDesktop),
+    [users.length, isDesktop, whiteboardActive],
   );
 
   return (

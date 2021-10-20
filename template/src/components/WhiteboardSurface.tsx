@@ -13,12 +13,20 @@
 import React, {useRef, useEffect, useContext} from 'react';
 import {WhiteboardContext} from '../components/WhiteboardConfigure';
 import {StyleSheet, View} from 'react-native';
-import {RoomPhase} from 'white-web-sdk';
+import {RoomPhase, ApplianceNames} from 'white-web-sdk';
+import WhiteboardToolBox from './WhiteboardToolBox';
+import ToolBox from '@netless/tool-box';
 
 const WhiteboardSurface = () => {
   const wbSurfaceRef = useRef();
-  const {whiteboardActive, whiteboardState, bindRoom, unBindRoom, whiteboardElement} =
-    useContext(WhiteboardContext);
+  const {
+    whiteboardActive,
+    whiteboardState,
+    bindRoom,
+    unBindRoom,
+    whiteboardRoom,
+    whiteboardElement,
+  } = useContext(WhiteboardContext);
 
   useEffect(
     function () {
@@ -34,19 +42,33 @@ const WhiteboardSurface = () => {
 
   return (
     <View style={style.flex1}>
-      <View style={style.WhiteBoardContainer} ref={whiteboardElement} key="whiteboard"></View>
+      <View
+        style={style.WhiteBoardContainer}
+        ref={whiteboardElement}
+        key="whiteboard"
+      ></View>
+      {whiteboardState == RoomPhase.Connected && (
+          <WhiteboardToolBox whiteboardRoom={whiteboardRoom}/>
+      )}
     </View>
   );
 };
+          // <View style={style.toolboxContainer}>
+          // <ToolBox room={whiteboardRoom.current} />
 
 const style = StyleSheet.create({
-  flex1: {flex: 1},
+  flex1: {flex: 1, position: 'relative'},
   WhiteBoardContainer: {
     width: '100%',
     height: '100%',
     backgroundColor: 'white',
     border: `2px solid ${$config.PRIMARY_COLOR}`,
     borderRadius: 10,
+  },
+  toolboxContainer: {
+    position: 'absolute',
+    paddingTop: 50,
+    paddingLeft: 20,
   },
 });
 
