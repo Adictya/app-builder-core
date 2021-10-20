@@ -54,8 +54,7 @@ const PinnedVideo = () => {
   const isSidePinnedlayout = topPinned === true ? false : dim[2]; // if either explicity set to false or auto evaluation
   const {userList, localUid} = useContext(chatContext);
 
-  const {whiteboardActive} =
-    useContext(WhiteboardContext);
+  const {whiteboardActive} = useContext(WhiteboardContext);
   return (
     <View
       style={{
@@ -139,8 +138,8 @@ const PinnedVideo = () => {
                         }
                         key={user.uid}
                         onPress={() => {
-                          if(!whiteboardActive)
-                          data.dispatch({type: 'SwapVideo', value: [user]});
+                          if (!whiteboardActive)
+                            data.dispatch({type: 'SwapVideo', value: [user]});
                         }}
                       >
                         <View style={style.flex1}>
@@ -290,7 +289,7 @@ const PinnedVideo = () => {
         }
       >
         {whiteboardActive ? (
-            <WhiteboardSurface/>
+          <WhiteboardSurface showToolbox />
         ) : (
           <MaxUidConsumer>
             {(maxUsers) => (

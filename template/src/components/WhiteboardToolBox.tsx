@@ -13,6 +13,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Pressable} from 'react-native';
 import {ApplianceNames} from 'white-web-sdk';
+import styles from 'react-native-toast-message/src/components/icon/styles';
 
 const WhiteboardToolBox = ({whiteboardRoom}) => {
   const [selectedTool, setSelectedTool] = useState(ApplianceNames.pencil);
@@ -56,7 +57,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
         </Pressable>
         <Pressable
           style={
-            selectedTool === ApplianceNames.hand ? style.toolActive : style.tool
+            selectedTool === ApplianceNames.pencil ? style.toolActive : style.tool
           }
           onPress={() => {
             handleSelect(ApplianceNames.pencil);
@@ -79,7 +80,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
         </Pressable>
         <Pressable
           style={
-            selectedTool === ApplianceNames.pencil ? style.toolActive : style.tool
+            selectedTool === ApplianceNames.eraser ? style.toolActive : style.tool
           }
           onPress={() => {
             handleSelect(ApplianceNames.eraser);
@@ -99,7 +100,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
         </Pressable>
         <Pressable
           style={
-            selectedTool === ApplianceNames.eraser ? style.toolActive : style.tool
+            style.tool
           }
           onPress={() => {
             handleClear();

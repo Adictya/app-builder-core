@@ -12,12 +12,11 @@
 
 import React, {useRef, useEffect, useContext} from 'react';
 import {WhiteboardContext} from '../components/WhiteboardConfigure';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {RoomPhase, ApplianceNames} from 'white-web-sdk';
 import WhiteboardToolBox from './WhiteboardToolBox';
-import ToolBox from '@netless/tool-box';
 
-const WhiteboardSurface = () => {
+const WhiteboardSurface = ({showToolbox}) => {
   const wbSurfaceRef = useRef();
   const {
     whiteboardActive,
@@ -28,17 +27,12 @@ const WhiteboardSurface = () => {
     whiteboardElement,
   } = useContext(WhiteboardContext);
 
-  useEffect(
-    function () {
-      if (whiteboardActive) {
-        bindRoom();
-      }
-      return () => {
-        unBindRoom();
-      };
-    },
-    [whiteboardState],
-  );
+  useEffect(function () {
+    bindRoom();
+    return () => {
+      unBindRoom();
+    };
+  }, []);
 
   return (
     <View style={style.flex1}>
@@ -47,14 +41,18 @@ const WhiteboardSurface = () => {
         ref={whiteboardElement}
         key="whiteboard"
       ></View>
-      {whiteboardState == RoomPhase.Connected && (
-          <WhiteboardToolBox whiteboardRoom={whiteboardRoom}/>
+      {whiteboardState == RoomPhase.Connected ? (
+        showToolbox && <WhiteboardToolBox whiteboardRoom={whiteboardRoom} />
+      ) : (
+        <View style={style.placeholder}>
+          <Text>Whiteboard is initializing</Text>
+        </View>
       )}
     </View>
   );
 };
-          // <View style={style.toolboxContainer}>
-          // <ToolBox room={whiteboardRoom.current} />
+// <View style={style.toolboxContainer}>
+// <ToolBox room={whiteboardRoom.current} />
 
 const style = StyleSheet.create({
   flex1: {flex: 1, position: 'relative'},
@@ -64,6 +62,15 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
     border: `2px solid ${$config.PRIMARY_COLOR}`,
     borderRadius: 10,
+  },
+  placeholder: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#00000008',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   toolboxContainer: {
     position: 'absolute',

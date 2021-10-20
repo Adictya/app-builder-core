@@ -99,7 +99,7 @@ const GridVideo = (props: GridVideoProps) => {
               whiteboardActive && (
                 <Pressable
                   onPress={() => {
-                    props.setLayout(Layout.Pinned);
+                    // props.setLayout(Layout.Pinned);
                   }}
                   style={{
                     flex: Platform.OS === 'web' ? 1 / dims.c : 1,
