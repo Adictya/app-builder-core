@@ -193,9 +193,9 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>follow备份 3</title>
+            <title>Pencil</title>
             <g
-              id="页面-1"
+              id=""
               stroke="none"
               stroke-width="1"
               fill="none"
@@ -204,7 +204,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
               stroke-linejoin="round"
             >
               <g
-                id="切图"
+                id="pencil"
                 transform="translate(-8.000000, -44.000000)"
                 stroke="#444E60"
               >
@@ -235,7 +235,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>矩形备份 25</title>
+            <title>Eraser</title>
             <g
               id="页面-1"
               stroke="none"
@@ -278,7 +278,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>矩形备份 24</title>
+            <title>Arrow</title>
             <g
               id="页面-1"
               stroke="none"
@@ -325,7 +325,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>矩形备份 25</title>
+            <title>Laser Pointer</title>
             <g
               id="页面-1"
               stroke="none"
@@ -444,7 +444,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>follow备份 5</title>
+            <title>Straing line</title>
             <g
               id="页面-1"
               stroke="none"
@@ -486,7 +486,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>folder备份</title>
+            <title>Ellipse</title>
             <g
               id="页面-1"
               stroke="none"
@@ -531,7 +531,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>folder备份</title>
+            <title>Rectangle</title>
             <g
               id="页面-1"
               stroke="none"
@@ -574,7 +574,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>矩形备份 25</title>
+            <title>Text</title>
             <g
               id="页面-1"
               stroke="none"
@@ -612,7 +612,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>编组</title>
+            <title>Clear</title>
             <g
               id="页面-1"
               stroke="none"
