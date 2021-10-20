@@ -28,7 +28,7 @@ import ColorContext from './ColorContext';
 import icons from '../assets/icons';
 import {layoutProps} from '../../theme.json';
 import FallbackLogo from '../subComponents/FallbackLogo';
-import {WhiteboardContext} from './WhiteboardConfigure';
+import {whiteboardContext} from './WhiteboardConfigure';
 import ToolBox from '@netless/tool-box';
 import RedoUndo from '@netless/redo-undo';
 import {RoomPhase} from 'white-web-sdk';
@@ -54,7 +54,7 @@ const PinnedVideo = () => {
   const isSidePinnedlayout = topPinned === true ? false : dim[2]; // if either explicity set to false or auto evaluation
   const {userList, localUid} = useContext(chatContext);
 
-  const {whiteboardActive,whiteboardState} = useContext(WhiteboardContext);
+  const {whiteboardActive,whiteboardState} = useContext(whiteboardContext);
 
 
   return (

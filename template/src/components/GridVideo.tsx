@@ -33,7 +33,7 @@ import RtcContext, {
   UidInterface,
 } from '../../agora-rn-uikit/src/RtcContext';
 import WhiteboardView from './WhiteboardView';
-import {WhiteboardContext} from './WhiteboardConfigure';
+import {whiteboardContext} from './WhiteboardConfigure';
 import {RoomPhase} from 'white-web-sdk';
 
 const layout = (len: number, isDesktop: boolean = true) => {
@@ -64,7 +64,7 @@ const GridVideo = (props: GridVideoProps) => {
   const {dispatch} = useContext(RtcContext);
   const max = useContext(MaxUidContext);
   const min = useContext(MinUidContext);
-  const {whiteboardActive, whiteboardState} = useContext(WhiteboardContext);
+  const {whiteboardActive, whiteboardState} = useContext(whiteboardContext);
   const wb: UidInterface = {
     uid: 'whiteboard',
     audio: false,

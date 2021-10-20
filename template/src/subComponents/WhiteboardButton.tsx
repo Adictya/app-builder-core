@@ -16,7 +16,7 @@ import icons from '../assets/icons';
 import ColorContext from '../components/ColorContext';
 import Layout from './LayoutEnum';
 import {RoomPhase} from 'white-web-sdk';
-import {WhiteboardContext} from '../components/WhiteboardConfigure';
+import {whiteboardContext} from '../components/WhiteboardConfigure';
 
 // import RtcEngine from 'react-native-agora';
 import useMount from '../components/useMount';
@@ -31,7 +31,7 @@ const WhiteboardButton = (props) => {
     joinWhiteboardRoom,
     leaveWhiteboardRoom,
     testFunc,
-  } = useContext(WhiteboardContext);
+  } = useContext(whiteboardContext);
   const {engine, userList, sendControlMessage, updateWbUserAttribute} =
     useContext(ChatContext);
   const {setLayout} = props;
@@ -49,9 +49,6 @@ const WhiteboardButton = (props) => {
     <>
       <TouchableOpacity
         onPress={() => {
-          if (
-          whiteboardRoomActive !== 1
-          ) {
             if (whiteboardActive) {
               leaveWhiteboardRoom();
               sendControlMessage(controlMessageEnum.whiteboardStoppped);
@@ -61,7 +58,6 @@ const WhiteboardButton = (props) => {
               sendControlMessage(controlMessageEnum.whiteboardStarted);
               updateWbUserAttribute('active');
             }
-          }
         }}
       >
         <View

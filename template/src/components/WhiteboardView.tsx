@@ -11,7 +11,7 @@
 */
 
 import React, {useRef, useEffect, useContext} from 'react';
-import {WhiteboardContext} from '../components/WhiteboardConfigure';
+import {whiteboardContext} from '../components/WhiteboardConfigure';
 import {StyleSheet, View, Text} from 'react-native';
 import {RoomPhase, ApplianceNames} from 'white-web-sdk';
 import WhiteboardToolBox from './WhiteboardToolBox';
@@ -21,7 +21,7 @@ const WhiteboardView = ({showToolbox}) => {
   const wbSurfaceRef = useRef();
   const {
     whiteboardState,
-  } = useContext(WhiteboardContext);
+  } = useContext(whiteboardContext);
 
 
   return (
@@ -41,13 +41,6 @@ const WhiteboardView = ({showToolbox}) => {
 
 const style = StyleSheet.create({
   flex1: {flex: 1, position: 'relative'},
-  WhiteBoardContainer: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white',
-    border: `2px solid ${$config.PRIMARY_COLOR}`,
-    borderRadius: 10,
-  },
   placeholder: {
     position: 'absolute',
     width: '100%',

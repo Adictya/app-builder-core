@@ -1,4 +1,4 @@
-import React, {useState, useRef, useContext, useEffect} from 'react';
+import React, {useState, useRef, useContext, useEffect, createElement} from 'react';
 import {createContext} from 'react';
 import {
   WhiteWebSdk,
@@ -11,7 +11,10 @@ import useMount from './useMount';
 import ToolBox from '@netless/tool-box';
 import ChatContext from './ChatContext';
 
-export const WhiteboardContext = createContext({});
+export const whiteboardContext = createContext({});
+
+export const whiteboardPaper = document.createElement('div');
+whiteboardPaper.className = "whiteboardPaper"
 
 const WhiteboardConfigure = (props) => {
   // TODO: Make the state more granular
@@ -170,15 +173,11 @@ const WhiteboardConfigure = (props) => {
         },
       )
       .then((room) => {
-        if (!whiteboardActive) {
-          leaveWhiteboardRoom();
-          whiteboardRoom.current = room;
-        } else {
           window.room = room;
           whiteboardRoom.current = room;
+          whiteboardRoom.current.bindHtmlElement(whiteboardPaper);
           setWhiteboardState(RoomPhase.Connected);
           setWhiteboardRoomActive(2);
-        }
       })
       .catch((err) => {
         console.log(err);
@@ -238,7 +237,7 @@ const WhiteboardConfigure = (props) => {
   // });
 
   return (
-    <WhiteboardContext.Provider
+    <whiteboardContext.Provider
       value={{
         whiteboardActive,
         whiteboardRoomActive,
@@ -253,7 +252,7 @@ const WhiteboardConfigure = (props) => {
       }}
     >
       {props.children}
-    </WhiteboardContext.Provider>
+    </whiteboardContext.Provider>
   );
 };
 

@@ -11,35 +11,32 @@
 */
 
 import React, {useRef, useEffect, useContext} from 'react';
-import {WhiteboardContext} from '../components/WhiteboardConfigure';
+import {whiteboardContext, whiteboardPaper} from '../components/WhiteboardConfigure';
 import {StyleSheet, View, Text} from 'react-native';
 import {RoomPhase, ApplianceNames} from 'white-web-sdk';
 import WhiteboardToolBox from './WhiteboardToolBox';
 
 const WhiteboardCanvas = ({showToolbox}) => {
   const wbSurfaceRef = useRef();
-  const {
-    bindRoom,
-    unBindRoom,
-    whiteboardRoom,
-    whiteboardElement,
-  } = useContext(WhiteboardContext);
+  const {bindRoom, unBindRoom, whiteboardRoom, whiteboardElement} =
+    useContext(whiteboardContext);
 
   useEffect(function () {
     // bindRoom();
-    whiteboardRoom.current.bindHtmlElement(
-      document.getElementById('whiteboard'),
-    );
+    whiteboardElement.current.appendChild(whiteboardPaper)
     return () => {
-      whiteboardRoom.current.bindHtmlElement(null);
       // unBindRoom();
     };
   }, []);
 
   return (
     <>
-      <View
-        style={style.WhiteBoardContainer}
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'white',
+        }}
         ref={whiteboardElement}
         nativeID="whiteboard"
         key="whiteboard"
