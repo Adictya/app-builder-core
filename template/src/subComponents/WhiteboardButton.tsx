@@ -33,7 +33,11 @@ const WhiteboardButton = (props) => {
   useEffect(() => {
     if (whiteboardActive) {
       setLayout(Layout.Pinned);
+      updateWbUserAttribute('active');
     }
+    else{
+      updateWbUserAttribute('inactive');
+      }
   }, [whiteboardActive]);
 
   return (
@@ -47,9 +51,6 @@ const WhiteboardButton = (props) => {
           } else {
             joinWhiteboardRoom();
             sendControlMessage(controlMessageEnum.whiteboardStarted);
-            engine.setLocalUserAttributes([
-              {key: 'whiteboardRoom', value: 'active'},
-            ]);
             updateWbUserAttribute('active');
           }
         }}
