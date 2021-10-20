@@ -34,6 +34,7 @@ import RtcContext, {
 } from '../../agora-rn-uikit/src/RtcContext';
 import WhiteboardSurface from './WhiteboardSurface';
 import {WhiteboardContext} from './WhiteboardConfigure';
+import {RoomPhase} from 'white-web-sdk';
 
 const layout = (len: number, isDesktop: boolean = true) => {
   const rows = Math.round(Math.sqrt(len));
@@ -63,7 +64,8 @@ const GridVideo = (props: GridVideoProps) => {
   const {dispatch} = useContext(RtcContext);
   const max = useContext(MaxUidContext);
   const min = useContext(MinUidContext);
-  const {whiteboardActive} = useContext(WhiteboardContext);
+  const {whiteboardState} = useContext(WhiteboardContext);
+  const [whiteboardActive , setWhiteboardActive ] = useState(false);
   const wb: UidInterface = {
     uid: 'whiteboard',
     audio: false,
@@ -86,6 +88,12 @@ const GridVideo = (props: GridVideoProps) => {
     () => layout(whiteboardActive ? users.length : users.length - 1, isDesktop),
     [users.length, isDesktop, whiteboardActive],
   );
+  useEffect(()=>{
+      if(whiteboardState === RoomPhase.Connected && !whiteboardActive)
+      setWhiteboardActive(true)
+      else if(whiteboardState !== RoomPhase.Connected && whiteboardActive)
+      setWhiteboardActive(false)
+    },[whiteboardState])
 
   return (
     <View

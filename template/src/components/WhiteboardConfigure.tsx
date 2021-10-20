@@ -111,7 +111,7 @@ const WhiteboardConfigure = (props) => {
 
   const bindRoom = () => {
     if(whiteboardRoom.current)
-    whiteboardRoom.current.bindHtmlElement(whiteboardElement.current);
+    whiteboardRoom.current.bindHtmlElement(document.getElementById('whiteboard'));
   };
 
   const unBindRoom = () => {
@@ -162,7 +162,7 @@ const WhiteboardConfigure = (props) => {
     whiteboardRoom.current
       .disconnect()
       .then(() => {
-          whiteboardRoom.current.bindHtmlElement();
+          // whiteboardRoom.current.bindHtmlElement();
           unBindRoom()
       })
       .catch((err) => {

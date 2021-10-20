@@ -28,9 +28,11 @@ const WhiteboardSurface = ({showToolbox}) => {
   } = useContext(WhiteboardContext);
 
   useEffect(function () {
-    bindRoom();
+    // bindRoom();
+    whiteboardRoom.current.bindHtmlElement(document.getElementById('whiteboard'));
     return () => {
-      unBindRoom();
+    whiteboardRoom.current.bindHtmlElement(null);
+      // unBindRoom();
     };
   }, []);
 
@@ -39,6 +41,7 @@ const WhiteboardSurface = ({showToolbox}) => {
       <View
         style={style.WhiteBoardContainer}
         ref={whiteboardElement}
+        nativeID="whiteboard"
         key="whiteboard"
       ></View>
       {whiteboardState == RoomPhase.Connected ? (

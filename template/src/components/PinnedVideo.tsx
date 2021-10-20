@@ -9,7 +9,7 @@
  information visit https://appbuilder.agora.io. 
 *********************************************
 */
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   ScrollView,
   View,
@@ -54,7 +54,16 @@ const PinnedVideo = () => {
   const isSidePinnedlayout = topPinned === true ? false : dim[2]; // if either explicity set to false or auto evaluation
   const {userList, localUid} = useContext(chatContext);
 
-  const {whiteboardActive} = useContext(WhiteboardContext);
+  const {whiteboardState} = useContext(WhiteboardContext);
+  const [whiteboardActive , setWhiteboardActive ] = useState(false);
+
+  useEffect(()=>{
+      if(whiteboardState === RoomPhase.Connected && !whiteboardActive)
+      setWhiteboardActive(true)
+      else if(whiteboardState !== RoomPhase.Connected && whiteboardActive)
+      setWhiteboardActive(false)
+    },[whiteboardState])
+
   return (
     <View
       style={{
