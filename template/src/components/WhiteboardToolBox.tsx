@@ -49,7 +49,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>click@1x</title>
+            <title>clicker</title>
             <g
               id="页面-1"
               stroke="none"
@@ -103,7 +103,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>follow备份 14</title>
+            <title>Select</title>
             <g
               id="Flat"
               stroke="none"
@@ -150,7 +150,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>矩形备份 24</title>
+            <title>Hand</title>
             <g
               id="页面-1"
               stroke="none"
