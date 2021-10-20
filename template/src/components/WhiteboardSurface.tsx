@@ -17,12 +17,12 @@ import {RoomPhase} from 'white-web-sdk';
 
 const WhiteboardSurface = () => {
   const wbSurfaceRef = useRef();
-  const {whiteboardState, bindRoom, unBindRoom, whiteboardElement} =
+  const {whiteboardActive, whiteboardState, bindRoom, unBindRoom, whiteboardElement} =
     useContext(WhiteboardContext);
 
   useEffect(
     function () {
-      if (whiteboardState === RoomPhase.Connected) {
+      if (whiteboardActive) {
         bindRoom();
       }
       return () => {
@@ -34,7 +34,7 @@ const WhiteboardSurface = () => {
 
   return (
     <View style={style.flex1}>
-      <View style={style.WhiteBoardContainer} ref={whiteboardElement}></View>
+      <View style={style.WhiteBoardContainer} ref={whiteboardElement} key="whiteboard"></View>
     </View>
   );
 };

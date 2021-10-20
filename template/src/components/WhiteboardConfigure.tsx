@@ -28,9 +28,91 @@ const WhiteboardConfigure = (props) => {
     }
   };
 
+  const testFunc = () => {
+    whiteboardRoom.current.cleanCurrentScene();
+  }
+
+  /*
+  const bindRoom = () => {
+    whiteWebSdkClient.current
+      .joinRoom(
+        {
+          uuid: whiteBoardProps.wbUuid,
+          roomToken: whiteBoardProps.wbToken,
+          floatBar: true,
+          isWritable: true,
+          hotKeys: {
+            ...DefaultHotKeys,
+            changeToSelector: 's',
+            changeToLaserPointer: 'z',
+            changeToPencil: 'p',
+            changeToRectangle: 'r',
+            changeToEllipse: 'c',
+            changeToEraser: 'e',
+            changeToText: 't',
+            changeToStraight: 'l',
+            changeToArrow: 'a',
+            changeToHand: 'h',
+          },
+        },
+        {
+          onPhaseChanged: (phase: RoomPhase) => {
+            updateRoomPhase(phase);
+          },
+        },
+      )
+      .then((room) => {
+        whiteboardRoom.current = room;
+        setWhiteboardState(RoomPhase.Connected)
+        whiteboardRoom.current.bindHtmlElement(whiteboardElement.current);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // if(whiteboardRoom.current)
+    // whiteboardRoom.current.bindHtmlElement(whiteboardElement.current);
+    // whiteboardRoom.current.refreshViewSize();
+    // joinWhiteboardRoom();
+  };
+
+  const unBindRoom = () => {
+    if(whiteboardRoom.current)
+    whiteboardRoom.current
+      .disconnect()
+      .then(() => {
+        // unBindRoom()
+          whiteboardRoom.current.bindHtmlElement();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // whiteboardRoom.current.bindHtmlElement();
+  };
+
+  const joinWhiteboardRoom = () => {
+    setWhiteboardActive(true);
+    bindRoom();
+  };
+
+  const leaveWhiteboardRoom = () => {
+    // whiteboardRoom.current
+    //   .disconnect()
+    //   .then(() => {
+    //     // unBindRoom()
+    //       whiteboardRoom.current.bindHtmlElement();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    setWhiteboardActive(false);
+    unBindRoom();
+  };
+  */
+
   const bindRoom = () => {
     if(whiteboardRoom.current)
     whiteboardRoom.current.bindHtmlElement(whiteboardElement.current);
+    whiteboardRoom.current.refreshViewSize();
   };
 
   const unBindRoom = () => {
@@ -81,7 +163,8 @@ const WhiteboardConfigure = (props) => {
     whiteboardRoom.current
       .disconnect()
       .then(() => {
-        unBindRoom()
+          whiteboardRoom.current.bindHtmlElement();
+          unBindRoom()
       })
       .catch((err) => {
         console.log(err);
@@ -102,10 +185,12 @@ const WhiteboardConfigure = (props) => {
         whiteboardActive,
         joinWhiteboardRoom,
         leaveWhiteboardRoom,
+        whiteboardRoom,
         bindRoom,
         unBindRoom,
         whiteboardState,
         whiteboardElement,
+        testFunc
       }}
     >
       {props.children}

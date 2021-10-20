@@ -24,9 +24,10 @@ import ChatContext, {controlMessageEnum} from '../components/ChatContext';
 
 const WhiteboardButton = (props) => {
   const {primaryColor} = useContext(ColorContext);
-  const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom} =
+  const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom, testFunc} =
     useContext(WhiteboardContext);
-  const {engine, userList, sendControlMessage, updateWbUserAttribute} = useContext(ChatContext);
+  const {engine, userList, sendControlMessage, updateWbUserAttribute} =
+    useContext(ChatContext);
   const {setLayout} = props;
 
   useEffect(() => {
@@ -36,48 +37,81 @@ const WhiteboardButton = (props) => {
   }, [whiteboardActive]);
 
   return (
-    <TouchableOpacity
-      onPress={() => {
-        if (whiteboardActive) {
-          leaveWhiteboardRoom();
-          sendControlMessage(controlMessageEnum.whiteboardStoppped);
-          updateWbUserAttribute('inactive');
-
-        } else {
-          joinWhiteboardRoom();
-          sendControlMessage(controlMessageEnum.whiteboardStarted);
-          engine.setLocalUserAttributes([{key: 'whiteboardRoom', value: 'active'}]);
-          updateWbUserAttribute('active');
-        }
-      }}
-    >
-      <View
-        style={
-          whiteboardActive
-            ? style.greenLocalButton
-            : [style.localButton, {borderColor: primaryColor}]
-        }
-      >
-        <Image
-          source={{
-            uri: whiteboardActive
-              ? icons.screenshareOffIcon
-              : icons.screenshareIcon,
-          }}
-          style={[style.buttonIcon, {tintColor: primaryColor}]}
-          resizeMode={'contain'}
-        />
-      </View>
-      <Text
-        style={{
-          textAlign: 'center',
-          marginTop: 5,
-          color: $config.PRIMARY_COLOR,
+    <>
+      <TouchableOpacity
+        onPress={() => {
+          if (whiteboardActive) {
+            leaveWhiteboardRoom();
+            sendControlMessage(controlMessageEnum.whiteboardStoppped);
+            updateWbUserAttribute('inactive');
+          } else {
+            joinWhiteboardRoom();
+            sendControlMessage(controlMessageEnum.whiteboardStarted);
+            engine.setLocalUserAttributes([
+              {key: 'whiteboardRoom', value: 'active'},
+            ]);
+            updateWbUserAttribute('active');
+          }
         }}
       >
-        Draw
-      </Text>
-    </TouchableOpacity>
+        <View
+          style={
+            whiteboardActive
+              ? style.greenLocalButton
+              : [style.localButton, {borderColor: primaryColor}]
+          }
+        >
+          <Image
+            source={{
+              uri: whiteboardActive
+                ? icons.screenshareOffIcon
+                : icons.screenshareIcon,
+            }}
+            style={[style.buttonIcon, {tintColor: primaryColor}]}
+            resizeMode={'contain'}
+          />
+        </View>
+        <Text
+          style={{
+            textAlign: 'center',
+            marginTop: 5,
+            color: $config.PRIMARY_COLOR,
+          }}
+        >
+          Draw
+        </Text>
+      </TouchableOpacity>
+      {/* REMOVETODO
+        <TouchableOpacity onPress={testFunc}>
+          <View
+          style={
+            whiteboardActive
+              ? style.greenLocalButton
+              : [style.localButton, {borderColor: primaryColor}]
+          }
+        >
+          <Image
+          source={{
+uri: whiteboardActive
+       ? icons.screenshareOffIcon
+       : icons.screenshareIcon,
+          }}
+        style={[style.buttonIcon, {tintColor: primaryColor}]}
+        resizeMode={'contain'}
+        />
+          </View>
+          <Text
+          style={{
+textAlign: 'center',
+             marginTop: 5,
+             color: $config.PRIMARY_COLOR,
+          }}
+        >
+          Testa
+          </Text>
+          </TouchableOpacity>
+      */}
+    </>
   );
 };
 
