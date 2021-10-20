@@ -31,6 +31,7 @@ interface chatContext {
   sendMessage: (msg: string) => void;
   sendMessageToUid: (msg: string, uid: number) => void;
   sendControlMessage: (msg: string) => void;
+  updateWbUserAttribute: (status: string) => void;
   sendControlMessageToUid: (msg: string, uid: number) => void;
   engine: RtmEngine;
   localUid: string;

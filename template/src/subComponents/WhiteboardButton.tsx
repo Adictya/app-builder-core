@@ -26,32 +26,38 @@ const WhiteboardButton = (props) => {
   const {primaryColor} = useContext(ColorContext);
   const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom} =
     useContext(WhiteboardContext);
-  const { userList ,sendControlMessage } = useContext(ChatContext)
+  const {engine, userList, sendControlMessage, updateWbUserAttribute} = useContext(ChatContext);
   const {setLayout} = props;
 
-  useEffect(()=>{
-    if(whiteboardActive){
-          setLayout(Layout.Pinned);
-      }
-    },[whiteboardActive])
+  useEffect(() => {
+    if (whiteboardActive) {
+      setLayout(Layout.Pinned);
+    }
+  }, [whiteboardActive]);
 
   return (
     <TouchableOpacity
       onPress={() => {
         if (whiteboardActive) {
           leaveWhiteboardRoom();
-          sendControlMessage(controlMessageEnum.whiteboardStoppped)
+          sendControlMessage(controlMessageEnum.whiteboardStoppped);
+          updateWbUserAttribute('inactive');
+
         } else {
           joinWhiteboardRoom();
-          sendControlMessage(controlMessageEnum.whiteboardStarted)
+          sendControlMessage(controlMessageEnum.whiteboardStarted);
+          engine.setLocalUserAttributes([{key: 'whiteboardRoom', value: 'active'}]);
+          updateWbUserAttribute('active');
         }
-      }}>
+      }}
+    >
       <View
         style={
           whiteboardActive
             ? style.greenLocalButton
             : [style.localButton, {borderColor: primaryColor}]
-        }>
+        }
+      >
         <Image
           source={{
             uri: whiteboardActive
@@ -67,7 +73,8 @@ const WhiteboardButton = (props) => {
           textAlign: 'center',
           marginTop: 5,
           color: $config.PRIMARY_COLOR,
-        }}>
+        }}
+      >
         Draw
       </Text>
     </TouchableOpacity>
