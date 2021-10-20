@@ -10,7 +10,15 @@
   "scripts": {
     "uikit": "rm -rf template/agora-rn-uikit && git clone https://github.com/AgoraIO-Community/ReactNative-UIKit template/agora-rn-uikit && cd template/agora-rn-uikit && git checkout ab-dev-auto",
     "deps": "cd template && npm i",
-    "dev-setup": "npm run uikit && npm run deps && node devSetup.js"
+    "dev-setup": "npm run uikit && npm run deps && node devSetup.js",
+    "ci": "agora-app-builder-cli build web --prod && cp ./vercel.json ./template/dist && cp ./apple-app-site-association ./conferencing/dist"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "agora-app-builder-cli": "1.0.8"
+  }
+}
   },
   "author": {
     "email": "svineth.face@gmail.com",
