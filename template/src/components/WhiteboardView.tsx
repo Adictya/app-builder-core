@@ -15,37 +15,19 @@ import {WhiteboardContext} from '../components/WhiteboardConfigure';
 import {StyleSheet, View, Text} from 'react-native';
 import {RoomPhase, ApplianceNames} from 'white-web-sdk';
 import WhiteboardToolBox from './WhiteboardToolBox';
+import WhiteboardCanvas from './WhiteboardCanvas';
 
-const WhiteboardSurface = ({showToolbox}) => {
+const WhiteboardView = ({showToolbox}) => {
   const wbSurfaceRef = useRef();
   const {
-    whiteboardActive,
     whiteboardState,
-    bindRoom,
-    unBindRoom,
-    whiteboardRoom,
-    whiteboardElement,
   } = useContext(WhiteboardContext);
 
-  useEffect(function () {
-    // bindRoom();
-    whiteboardRoom.current.bindHtmlElement(document.getElementById('whiteboard'));
-    return () => {
-    whiteboardRoom.current.bindHtmlElement(null);
-      // unBindRoom();
-    };
-  }, []);
 
   return (
     <View style={style.flex1}>
-      <View
-        style={style.WhiteBoardContainer}
-        ref={whiteboardElement}
-        nativeID="whiteboard"
-        key="whiteboard"
-      ></View>
       {whiteboardState == RoomPhase.Connected ? (
-        showToolbox && <WhiteboardToolBox whiteboardRoom={whiteboardRoom} />
+        <WhiteboardCanvas showToolbox={showToolbox}/>
       ) : (
         <View style={style.placeholder}>
           <Text>Whiteboard is initializing</Text>
@@ -82,4 +64,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default WhiteboardSurface;
+export default WhiteboardView;

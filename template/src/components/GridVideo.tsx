@@ -32,7 +32,7 @@ import RtcContext, {
   DispatchType,
   UidInterface,
 } from '../../agora-rn-uikit/src/RtcContext';
-import WhiteboardSurface from './WhiteboardSurface';
+import WhiteboardView from './WhiteboardView';
 import {WhiteboardContext} from './WhiteboardConfigure';
 import {RoomPhase} from 'white-web-sdk';
 
@@ -64,8 +64,7 @@ const GridVideo = (props: GridVideoProps) => {
   const {dispatch} = useContext(RtcContext);
   const max = useContext(MaxUidContext);
   const min = useContext(MinUidContext);
-  const {whiteboardState} = useContext(WhiteboardContext);
-  const [whiteboardActive , setWhiteboardActive ] = useState(false);
+  const {whiteboardActive, whiteboardState} = useContext(WhiteboardContext);
   const wb: UidInterface = {
     uid: 'whiteboard',
     audio: false,
@@ -88,12 +87,6 @@ const GridVideo = (props: GridVideoProps) => {
     () => layout(whiteboardActive ? users.length : users.length - 1, isDesktop),
     [users.length, isDesktop, whiteboardActive],
   );
-  useEffect(()=>{
-      if(whiteboardState === RoomPhase.Connected && !whiteboardActive)
-      setWhiteboardActive(true)
-      else if(whiteboardState !== RoomPhase.Connected && whiteboardActive)
-      setWhiteboardActive(false)
-    },[whiteboardState])
 
   return (
     <View
@@ -116,7 +109,7 @@ const GridVideo = (props: GridVideoProps) => {
                   key={cidx}
                 >
                   <View style={style.gridVideoContainerInner}>
-                    <WhiteboardSurface />
+                    <WhiteboardView />
                   </View>
                 </Pressable>
               )
@@ -235,7 +228,7 @@ const GridVideo = (props: GridVideoProps) => {
       ))}
       {false && (
         <View style={style.gridRow} key={'ridx2'}>
-          <WhiteboardSurface />
+          <WhiteboardView />
         </View>
       )}
     </View>
