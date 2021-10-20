@@ -31,7 +31,7 @@ const WhiteboardToolBox = ({whiteboardRoom}) => {
 
   return (
     <View style={style.toolboxContainer}>
-      <View style={style.toolbox}>
+      <View style={style.toolbox} nativeID="toolbox">
         <Pressable
           style={
             selectedTool === ApplianceNames.clicker
@@ -674,6 +674,7 @@ const style = StyleSheet.create({
     position: 'absolute',
     top: 50,
     left: 30,
+    zIndex:10
   },
   toolbox: {
     backgroundColor: 'white',
@@ -694,8 +695,8 @@ const style = StyleSheet.create({
     },
     shadowOpacity: 0.12,
     shadowRadius: 5.22,
-
-    elevation: 3,
+    elevation: 10,
+    zIndex: 10,
   },
   toolActive: {
     height: 30,

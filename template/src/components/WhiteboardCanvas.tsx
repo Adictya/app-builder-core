@@ -31,6 +31,7 @@ const WhiteboardCanvas = ({showToolbox}) => {
 
   return (
     <>
+      {showToolbox && <WhiteboardToolBox whiteboardRoom={whiteboardRoom} />}
       <div
         style={{
           width: '100%',
@@ -41,7 +42,6 @@ const WhiteboardCanvas = ({showToolbox}) => {
         nativeID="whiteboard"
         key="whiteboard"
       />
-      {showToolbox && <WhiteboardToolBox whiteboardRoom={whiteboardRoom} />}
     </>
   );
 };
