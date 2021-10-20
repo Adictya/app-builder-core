@@ -209,8 +209,10 @@ const RtmConfigure = (props: any) => {
           ) {
             setRecordingActive(false);
           } else if (text.slice(1) === controlMessageEnum.whiteboardStarted) {
+            console.log("WHITERTM: whiteboardStarted")
             joinWhiteboardRoom();
           } else if (text.slice(1) === controlMessageEnum.whiteboardStoppped) {
+            console.log("WHITERTM: whiteboardStopped")
             leaveWhiteboardRoom();
           }
         } else if (text[0] === mType.Normal) {
@@ -261,7 +263,7 @@ const RtmConfigure = (props: any) => {
             setUserList((prevState) => {
               console.log('User ATTRIB:' + attr.attributes.whiteboardRoom);
               if (attr?.attributes?.whiteboardRoom === 'active') {
-                console.log('User ATTRIB caught:' + attr.attributes.whiteboardRoom);
+                console.log('WHITERTM:' + attr.attributes.whiteboardRoom + attr.attributes.name);
                 joinWhiteboardRoom();
               }
               return {

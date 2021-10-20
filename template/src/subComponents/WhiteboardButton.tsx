@@ -15,7 +15,7 @@ import {Image, TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import icons from '../assets/icons';
 import ColorContext from '../components/ColorContext';
 import Layout from './LayoutEnum';
-
+import {RoomPhase} from 'white-web-sdk';
 import {WhiteboardContext} from '../components/WhiteboardConfigure';
 
 // import RtcEngine from 'react-native-agora';
@@ -24,8 +24,14 @@ import ChatContext, {controlMessageEnum} from '../components/ChatContext';
 
 const WhiteboardButton = (props) => {
   const {primaryColor} = useContext(ColorContext);
-  const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom, testFunc} =
-    useContext(WhiteboardContext);
+  const {
+    whiteboardActive,
+    whiteboardRoomActive,
+    whiteboardState,
+    joinWhiteboardRoom,
+    leaveWhiteboardRoom,
+    testFunc,
+  } = useContext(WhiteboardContext);
   const {engine, userList, sendControlMessage, updateWbUserAttribute} =
     useContext(ChatContext);
   const {setLayout} = props;
@@ -34,24 +40,27 @@ const WhiteboardButton = (props) => {
     if (whiteboardActive) {
       setLayout(Layout.Pinned);
       updateWbUserAttribute('active');
-    }
-    else{
+    } else {
       updateWbUserAttribute('inactive');
-      }
+    }
   }, [whiteboardActive]);
 
   return (
     <>
       <TouchableOpacity
         onPress={() => {
-          if (whiteboardActive) {
-            leaveWhiteboardRoom();
-            sendControlMessage(controlMessageEnum.whiteboardStoppped);
-            updateWbUserAttribute('inactive');
-          } else {
-            joinWhiteboardRoom();
-            sendControlMessage(controlMessageEnum.whiteboardStarted);
-            updateWbUserAttribute('active');
+          if (
+          whiteboardRoomActive !== 1
+          ) {
+            if (whiteboardActive) {
+              leaveWhiteboardRoom();
+              sendControlMessage(controlMessageEnum.whiteboardStoppped);
+              updateWbUserAttribute('inactive');
+            } else {
+              joinWhiteboardRoom();
+              sendControlMessage(controlMessageEnum.whiteboardStarted);
+              updateWbUserAttribute('active');
+            }
           }
         }}
       >
