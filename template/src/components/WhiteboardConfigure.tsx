@@ -112,7 +112,6 @@ const WhiteboardConfigure = (props) => {
   const bindRoom = () => {
     if(whiteboardRoom.current)
     whiteboardRoom.current.bindHtmlElement(whiteboardElement.current);
-    whiteboardRoom.current.refreshViewSize();
   };
 
   const unBindRoom = () => {

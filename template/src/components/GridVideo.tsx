@@ -9,7 +9,7 @@
  information visit https://appbuilder.agora.io. 
 *********************************************
 */
-import React, {useMemo, useContext, useState} from 'react';
+import React, {useMemo, useContext, useState, useEffect} from 'react';
 import {
   View,
   Platform,
@@ -33,6 +33,7 @@ import RtcContext, {
   UidInterface,
 } from '../../agora-rn-uikit/src/RtcContext';
 import WhiteboardSurface from './WhiteboardSurface';
+import {WhiteboardContext} from './WhiteboardConfigure';
 
 const layout = (len: number, isDesktop: boolean = true) => {
   const rows = Math.round(Math.sqrt(len));
@@ -62,12 +63,13 @@ const GridVideo = (props: GridVideoProps) => {
   const {dispatch} = useContext(RtcContext);
   const max = useContext(MaxUidContext);
   const min = useContext(MinUidContext);
+  const {whiteboardActive} = useContext(WhiteboardContext);
   const wb: UidInterface = {
-    uid: 'whiteboard',
-    audio: false,
-    video: false,
-    streamType: 'high',
-  };
+          uid: 'whiteboard',
+          audio: false,
+          video: false,
+          streamType: 'high',
+    }
   const {primaryColor} = useContext(ColorContext);
   const {userList, localUid} = useContext(chatContext);
   const users = [...max, ...min, wb];
@@ -81,9 +83,10 @@ const GridVideo = (props: GridVideoProps) => {
   ]);
   const isDesktop = dim[0] > dim[1] + 100;
   let {matrix, dims} = useMemo(
-    () => layout(users.length, isDesktop),
-    [users.length, isDesktop],
+    () => layout(whiteboardActive?users.length:users.length-1, isDesktop),
+    [users.length, isDesktop,whiteboardActive],
   );
+
   return (
     <View
       style={[style.full, {paddingHorizontal: isDesktop ? 50 : 0}]}
@@ -93,20 +96,22 @@ const GridVideo = (props: GridVideoProps) => {
         <View style={style.gridRow} key={ridx}>
           {r.map((c, cidx) => {
             return users[ridx * dims.c + cidx].uid === 'whiteboard' ? (
-              <Pressable
-                onPress={() => {
-                  props.setLayout(Layout.Pinned);
-                }}
-                style={{
-                  flex: Platform.OS === 'web' ? 1 / dims.c : 1,
-                  marginHorizontal: 'auto',
-                }}
-                key={cidx}
-              >
-                <View style={style.gridVideoContainerInner}>
-                  <WhiteboardSurface />
-                </View>
-              </Pressable>
+              whiteboardActive && (
+                <Pressable
+                  onPress={() => {
+                    props.setLayout(Layout.Pinned);
+                  }}
+                  style={{
+                    flex: Platform.OS === 'web' ? 1 / dims.c : 1,
+                    marginHorizontal: 'auto',
+                  }}
+                  key={cidx}
+                >
+                  <View style={style.gridVideoContainerInner}>
+                    <WhiteboardSurface />
+                  </View>
+                </Pressable>
+              )
             ) : (
               <Pressable
                 onPress={() => {
