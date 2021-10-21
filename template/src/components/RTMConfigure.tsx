@@ -209,10 +209,10 @@ const RtmConfigure = (props: any) => {
           ) {
             setRecordingActive(false);
           } else if (text.slice(1) === controlMessageEnum.whiteboardStarted) {
-            console.log("WHITERTM: whiteboardStarted")
+            // Whiteboard: Join room when Whiteboard started message received
             joinWhiteboardRoom();
           } else if (text.slice(1) === controlMessageEnum.whiteboardStoppped) {
-            console.log("WHITERTM: whiteboardStopped")
+            // Whiteboard: Leave room when Whiteboard stopped message received
             leaveWhiteboardRoom();
           }
         } else if (text[0] === mType.Normal) {
@@ -325,6 +325,7 @@ const RtmConfigure = (props: any) => {
     );
   };
 
+  // Whiteboard: RTM Method to add the whiteboard state to existing local user attributes 
   const updateWbUserAttribute = async (whiteboardState: string) => {
     (engine.current as RtmEngine).setLocalUserAttributes([
       {key: 'name', value: name || 'User'},

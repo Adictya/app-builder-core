@@ -64,15 +64,19 @@ const GridVideo = (props: GridVideoProps) => {
   const {dispatch} = useContext(RtcContext);
   const max = useContext(MaxUidContext);
   const min = useContext(MinUidContext);
-  const {whiteboardActive, whiteboardState} = useContext(whiteboardContext);
+
+  const {whiteboardActive} = useContext(whiteboardContext);
   const wb: UidInterface = {
     uid: 'whiteboard',
     audio: false,
     video: false,
     streamType: 'high',
   };
+
   const {primaryColor} = useContext(ColorContext);
   const {userList, localUid} = useContext(chatContext);
+  // Whiteboard: Add an extra user with uid as whiteboard to intercept 
+  // later and replace with whiteboardView
   const users = [...max, ...min, wb];
   let onLayout = (e: any) => {
     setDim([e.nativeEvent.layout.width, e.nativeEvent.layout.height]);
@@ -84,6 +88,8 @@ const GridVideo = (props: GridVideoProps) => {
   ]);
   const isDesktop = dim[0] > dim[1] + 100;
   let {matrix, dims} = useMemo(
+    // Whiteboard: Only iterate over n-1 elements when whiteboard not
+    // active since last element is always whiteboard placeholder
     () => layout(whiteboardActive ? users.length : users.length - 1, isDesktop),
     [users.length, isDesktop, whiteboardActive],
   );
@@ -100,6 +106,7 @@ const GridVideo = (props: GridVideoProps) => {
               whiteboardActive && (
                 <Pressable
                   onPress={() => {
+                    // Whiteboard: Disable layout toggle on whiteboard placeholder element press
                     // props.setLayout(Layout.Pinned);
                   }}
                   style={{

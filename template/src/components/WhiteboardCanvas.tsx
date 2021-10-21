@@ -11,19 +11,23 @@
 */
 
 import React, {useRef, useEffect, useContext} from 'react';
-import {whiteboardContext, whiteboardPaper} from '../components/WhiteboardConfigure';
+import {
+  whiteboardContext,
+  whiteboardPaper,
+} from '../components/WhiteboardConfigure';
 import {StyleSheet, View, Text} from 'react-native';
 import {RoomPhase, ApplianceNames} from 'white-web-sdk';
 import WhiteboardToolBox from './WhiteboardToolBox';
 
-const WhiteboardCanvas = ({showToolbox}) => {
+interface WhiteboardCanvasInterface{
+    showToolbox: boolean| undefined
+  }
+const WhiteboardCanvas:React.FC<WhiteboardCanvasInterface> = ({showToolbox}) => {
   const wbSurfaceRef = useRef();
-  const {bindRoom, unBindRoom, whiteboardRoom, whiteboardElement} =
-    useContext(whiteboardContext);
+  const {whiteboardRoom} = useContext(whiteboardContext);
 
   useEffect(function () {
-    // bindRoom();
-    whiteboardElement.current.appendChild(whiteboardPaper)
+    wbSurfaceRef.current.appendChild(whiteboardPaper);
     return () => {
       // unBindRoom();
     };
@@ -38,15 +42,13 @@ const WhiteboardCanvas = ({showToolbox}) => {
           height: '100%',
           backgroundColor: 'white',
         }}
-        ref={whiteboardElement}
+        ref={wbSurfaceRef}
         nativeID="whiteboard"
         key="whiteboard"
       />
     </>
   );
 };
-// <View style={style.toolboxContainer}>
-// <ToolBox room={whiteboardRoom.current} />
 
 const style = StyleSheet.create({
   WhiteBoardContainer: {

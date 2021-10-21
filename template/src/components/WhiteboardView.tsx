@@ -17,16 +17,20 @@ import {RoomPhase, ApplianceNames} from 'white-web-sdk';
 import WhiteboardToolBox from './WhiteboardToolBox';
 import WhiteboardCanvas from './WhiteboardCanvas';
 
-const WhiteboardView = ({showToolbox}) => {
+interface WhiteboardViewInterface{
+  showToolbox?: boolean
+}
+
+const WhiteboardView:React.FC<WhiteboardViewInterface> = ({showToolbox}) => {
   const wbSurfaceRef = useRef();
   const {
-    whiteboardState,
+    whiteboardRoomState,
   } = useContext(whiteboardContext);
 
 
   return (
     <View style={style.flex1}>
-      {whiteboardState == RoomPhase.Connected ? (
+      {whiteboardRoomState == RoomPhase.Connected ? (
         <WhiteboardCanvas showToolbox={showToolbox}/>
       ) : (
         <View style={style.placeholder}>
@@ -36,8 +40,6 @@ const WhiteboardView = ({showToolbox}) => {
     </View>
   );
 };
-// <View style={style.toolboxContainer}>
-// <ToolBox room={whiteboardRoom.current} />
 
 const style = StyleSheet.create({
   flex1: {flex: 1, position: 'relative'},

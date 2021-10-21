@@ -10,31 +10,21 @@
 *********************************************
 */
 
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Image, TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import icons from '../assets/icons';
 import ColorContext from '../components/ColorContext';
 import Layout from './LayoutEnum';
-import {RoomPhase} from 'white-web-sdk';
 import {whiteboardContext} from '../components/WhiteboardConfigure';
 
 // import RtcEngine from 'react-native-agora';
-import useMount from '../components/useMount';
 import ChatContext, {controlMessageEnum} from '../components/ChatContext';
 
-const WhiteboardButton = (props) => {
+const WhiteboardButton = ({setLayout}) => {
   const {primaryColor} = useContext(ColorContext);
-  const {
-    whiteboardActive,
-    whiteboardRoomActive,
-    whiteboardState,
-    joinWhiteboardRoom,
-    leaveWhiteboardRoom,
-    testFunc,
-  } = useContext(whiteboardContext);
-  const {engine, userList, sendControlMessage, updateWbUserAttribute} =
-    useContext(ChatContext);
-  const {setLayout} = props;
+  const {whiteboardActive, joinWhiteboardRoom, leaveWhiteboardRoom} =
+    useContext(whiteboardContext);
+  const {sendControlMessage, updateWbUserAttribute} = useContext(ChatContext);
 
   useEffect(() => {
     if (whiteboardActive) {
@@ -49,15 +39,15 @@ const WhiteboardButton = (props) => {
     <>
       <TouchableOpacity
         onPress={() => {
-            if (whiteboardActive) {
-              leaveWhiteboardRoom();
-              sendControlMessage(controlMessageEnum.whiteboardStoppped);
-              updateWbUserAttribute('inactive');
-            } else {
-              joinWhiteboardRoom();
-              sendControlMessage(controlMessageEnum.whiteboardStarted);
-              updateWbUserAttribute('active');
-            }
+          if (whiteboardActive) {
+            leaveWhiteboardRoom();
+            sendControlMessage(controlMessageEnum.whiteboardStoppped);
+            updateWbUserAttribute('inactive');
+          } else {
+            joinWhiteboardRoom();
+            sendControlMessage(controlMessageEnum.whiteboardStarted);
+            updateWbUserAttribute('active');
+          }
         }}
       >
         <View
@@ -87,36 +77,6 @@ const WhiteboardButton = (props) => {
           Draw
         </Text>
       </TouchableOpacity>
-      {/* REMOVETODO
-        <TouchableOpacity onPress={testFunc}>
-          <View
-          style={
-            whiteboardActive
-              ? style.greenLocalButton
-              : [style.localButton, {borderColor: primaryColor}]
-          }
-        >
-          <Image
-          source={{
-uri: whiteboardActive
-       ? icons.screenshareOffIcon
-       : icons.screenshareIcon,
-          }}
-        style={[style.buttonIcon, {tintColor: primaryColor}]}
-        resizeMode={'contain'}
-        />
-          </View>
-          <Text
-          style={{
-textAlign: 'center',
-             marginTop: 5,
-             color: $config.PRIMARY_COLOR,
-          }}
-        >
-          Testa
-          </Text>
-          </TouchableOpacity>
-      */}
     </>
   );
 };
