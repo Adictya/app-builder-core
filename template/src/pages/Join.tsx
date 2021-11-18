@@ -9,7 +9,7 @@
  information visit https://appbuilder.agora.io. 
 *********************************************
 */
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {useHistory} from '../components/Router';
 import SessionContext from '../components/SessionContext';
@@ -54,6 +54,12 @@ const Join = (props: joinProps) => {
   const startCall = async () => {
     joinSession({phrase});
   };
+
+  useEffect(() => {
+    if (phrase) {
+      joinSession({phrase});
+    }
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={style.main}>

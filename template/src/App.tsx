@@ -9,7 +9,7 @@
  information visit https://appbuilder.agora.io. 
 *********************************************
 */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Join from './pages/Join';
 import VideoCall from './pages/VideoCall';
 import Create from './pages/Create';
@@ -30,7 +30,6 @@ import ToastConfig from './subComponents/toastConfig';
 import shouldAuthenticate from './utils/shouldAuthenticate';
 import KeyboardManager from 'react-native-keyboard-manager';
 
-
 if (Platform.OS === 'ios') {
   KeyboardManager.setEnable(true);
   KeyboardManager.setEnableAutoToolbar(false);
@@ -38,8 +37,13 @@ if (Platform.OS === 'ios') {
   KeyboardManager.setShouldResignOnTouchOutside(true);
 }
 
-const App: React.FC = () => {
-  const [phrase, onChangePhrase] = useState('');
+const App: React.FC = (props) => {
+  const {passphrase} = props;
+  const [phrase, onChangePhrase] = useState(passphrase);
+
+  useEffect(() => {
+    console.log('Passphrase is', passphrase);
+  }, [passphrase]);
 
   return (
     <ImageBackground
@@ -57,7 +61,11 @@ const App: React.FC = () => {
                   <Navigation />
                   <Switch>
                     <Route exact path={'/'}>
-                      <Redirect to={'/create'} />
+                      {passphrase ? (
+                        <Redirect to={'/join'} />
+                      ) : (
+                        <Redirect to={'/create'} />
+                      )}
                     </Route>
                     <Route exact path={'/authenticate'}>
                       {shouldAuthenticate ? <OAuth /> : <Redirect to={'/'} />}

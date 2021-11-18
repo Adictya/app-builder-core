@@ -4,6 +4,8 @@
   "private": true,
   "main": ".electron/index.js",
   "scripts": {
+    "esm": "cross-env TARGET=esm NODE_ENV=development webpack-dev-server --hot --open --config webpack.esm.config.js",
+    "esm:build": "cross-env TARGET=esm NODE_ENV=production webpack --config webpack.esm.config.js",
     "android": "react-native run-android",
     "android:build": "npm run android:build:unix",
     "android:build:unix": "cd android && ./gradlew assembleRelease",
@@ -77,6 +79,7 @@
     "@babel/runtime": "7.14.0",
     "@bam.tech/react-native-make": "3.0.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.3.3",
+    "@purtuga/esm-webpack-plugin": "^1.5.0",
     "@react-native-community/eslint-config": "1.1.0",
     "@types/jest": "25.2.3",
     "@types/react-native": "0.63.52",
