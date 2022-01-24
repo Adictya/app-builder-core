@@ -24,7 +24,6 @@ interface WhiteboardCanvasInterface{
   }
 const WhiteboardCanvas:React.FC<WhiteboardCanvasInterface> = ({showToolbox}) => {
   const wbSurfaceRef = useRef();
-  const {whiteboardRoom} = useContext(whiteboardContext);
 
   useEffect(function () {
     wbSurfaceRef.current.appendChild(whiteboardPaper);
@@ -35,7 +34,6 @@ const WhiteboardCanvas:React.FC<WhiteboardCanvasInterface> = ({showToolbox}) => 
 
   return (
     <>
-      {showToolbox && <WhiteboardToolBox whiteboardRoom={whiteboardRoom} />}
       <div
         style={{
           width: '100%',

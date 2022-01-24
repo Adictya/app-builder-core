@@ -11,8 +11,9 @@ import {
 } from 'white-web-sdk';
 // import useMount from './useMount';
 
-export const whiteboardPaper = document.createElement('div');
+export const whiteboardPaper = document.createElement('iframe');
 whiteboardPaper.className = 'whiteboardPaper';
+whiteboardPaper.src="https://www.study.com/"
 
 export const whiteboardContext = createContext(
   {} as whiteboardContextInterface,
@@ -23,7 +24,6 @@ export interface whiteboardContextInterface {
   whiteboardRoomState: RoomPhase;
   joinWhiteboardRoom: () => void;
   leaveWhiteboardRoom: () => void;
-  whiteboardRoom: React.Ref<Room>;
 }
 
 export interface WhiteboardPropsInterface {
@@ -39,47 +39,11 @@ const WhiteboardConfigure: React.FC<WhiteboardPropsInterface> = (props) => {
   );
 
   const whiteWebSdkClient = useRef({} as WhiteWebSdk);
-  const whiteboardRoom = useRef({} as Room);
-  const whiteBoardProps = {
-    wbUuid: '5492e4307c3011ec906e57d8020de2f6',
-    wbToken:
-      'NETLESSROOM_YWs9dF9YQ1lpdXhmTVFqaVhjUiZub25jZT0xNjQyOTMwNzY5MzAyMDAmcm9sZT0wJnNpZz00ZWVmNDNmOTMxNGU3MWNjMzY0ZGFlODk5YjBmNDhkZmQ2NGZhNjhhOWVlNGExMWYyMDA5MjFlODcxZTI5YWQxJnV1aWQ9NTQ5MmU0MzA3YzMwMTFlYzkwNmU1N2Q4MDIwZGUyZjY',
-    wbAppIdentifier: ' ',
-  };
 
   const _join = () => {
-    whiteWebSdkClient.current
-      .joinRoom({
-        uuid: whiteBoardProps.wbUuid,
-        uid:`${Date.now()}`,
-        roomToken: whiteBoardProps.wbToken,
-        floatBar: true,
-        isWritable: true,
-      })
-      .then((room) => {
-        whiteboardRoom.current = room;
-        whiteboardRoom.current.bindHtmlElement(whiteboardPaper);
-        setWhiteboardRoomState(RoomPhase.Connected);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const _leave = () => {
-    try {
-      whiteboardRoom.current
-        .disconnect()
-        .then(() => {
-          whiteboardRoom.current.bindHtmlElement(null);
-          setWhiteboardRoomState(RoomPhase.Disconnected);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const joinWhiteboardRoom = () => {
@@ -98,15 +62,13 @@ const WhiteboardConfigure: React.FC<WhiteboardPropsInterface> = (props) => {
         region: 'cn-hz',
       });
       _join();
-      setWhiteboardRoomState(RoomPhase.Connecting);
+      setWhiteboardRoomState(RoomPhase.Connected);
     } else if (whiteboardActive) {
       _join();
-      setWhiteboardRoomState(RoomPhase.Connecting);
+      setWhiteboardRoomState(RoomPhase.Connected);
     } else {
-      if (whiteboardRoom.current) {
-        _leave();
-        setWhiteboardRoomState(RoomPhase.Disconnecting);
-      }
+      _leave();
+      setWhiteboardRoomState(RoomPhase.Disconnected);
     }
   }, [whiteboardActive]);
 
@@ -125,7 +87,6 @@ const WhiteboardConfigure: React.FC<WhiteboardPropsInterface> = (props) => {
         whiteboardRoomState,
         joinWhiteboardRoom,
         leaveWhiteboardRoom,
-        whiteboardRoom,
       }}
     >
       {props.children}
