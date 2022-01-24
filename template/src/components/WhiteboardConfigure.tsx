@@ -41,9 +41,9 @@ const WhiteboardConfigure: React.FC<WhiteboardPropsInterface> = (props) => {
   const whiteWebSdkClient = useRef({} as WhiteWebSdk);
   const whiteboardRoom = useRef({} as Room);
   const whiteBoardProps = {
-    wbUuid: '7ff876b02c2311ecb631d7c9baf6f921',
+    wbUuid: '5492e4307c3011ec906e57d8020de2f6',
     wbToken:
-      'NETLESSROOM_YWs9MWg0VXFXVDR5Yi1RUC1QYyZub25jZT0xNjM0Mjk4MzQzMzQ2MDAmcm9sZT0wJnNpZz05NTI1ODhjYjBlYWY4ZTY2MzVmNTBhYjkzNWYwN2E5MzBkOTA3NDE1Y2U0YTg4ZDkwN2M5MTM4YzdkOTZlNWYyJnV1aWQ9N2ZmODc2YjAyYzIzMTFlY2I2MzFkN2M5YmFmNmY5MjE',
+      'NETLESSROOM_YWs9dF9YQ1lpdXhmTVFqaVhjUiZub25jZT0xNjQyOTMwNzY5MzAyMDAmcm9sZT0wJnNpZz00ZWVmNDNmOTMxNGU3MWNjMzY0ZGFlODk5YjBmNDhkZmQ2NGZhNjhhOWVlNGExMWYyMDA5MjFlODcxZTI5YWQxJnV1aWQ9NTQ5MmU0MzA3YzMwMTFlYzkwNmU1N2Q4MDIwZGUyZjY',
     wbAppIdentifier: ' ',
   };
 
@@ -51,6 +51,7 @@ const WhiteboardConfigure: React.FC<WhiteboardPropsInterface> = (props) => {
     whiteWebSdkClient.current
       .joinRoom({
         uuid: whiteBoardProps.wbUuid,
+        uid:`${Date.now()}`,
         roomToken: whiteBoardProps.wbToken,
         floatBar: true,
         isWritable: true,
@@ -91,7 +92,7 @@ const WhiteboardConfigure: React.FC<WhiteboardPropsInterface> = (props) => {
 
   useEffect(() => {
     if (!whiteWebSdkClient.current.joinRoom && whiteboardActive) {
-      const appIdentifier = 'sQiiICtvEeyWGfeDVd9B7A/Kbv5q0_GAqx8Nw';
+      const appIdentifier = 'tuffUHwrEeyRoMGwMgqdqg/ToNGlh32hZPCiA';
       whiteWebSdkClient.current = new WhiteWebSdk({
         appIdentifier: appIdentifier,
         region: 'cn-hz',
