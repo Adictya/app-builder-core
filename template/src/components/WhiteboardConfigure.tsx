@@ -13,7 +13,7 @@ import {
 
 export const whiteboardPaper = document.createElement('iframe');
 whiteboardPaper.className = 'whiteboardPaper';
-whiteboardPaper.src="https://www.study.com/"
+whiteboardPaper.src="https://docs.google.com/forms/d/e/1FAIpQLSeycJnxmN5ckHJZM6-nlObEZPWNnMM5RrxJG7wEftYuXdvl5Q/viewform?embedded=true"
 
 export const whiteboardContext = createContext(
   {} as whiteboardContextInterface,
