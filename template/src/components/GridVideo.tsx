@@ -58,9 +58,10 @@ const layout = (len: number, isDesktop: boolean = true) => {
 
 interface GridVideoProps {
   setLayout: React.Dispatch<React.SetStateAction<Layout>>;
+  Videos: any;
 }
 
-const GridVideo = (props: GridVideoProps) => {
+const GridVideo = ({setLayout, Videos}: GridVideoProps) => {
   const {height, width} = useWindowDimensions();
   const {dispatch} = useContext(RtcContext);
   const max = useContext(MaxUidContext);
@@ -83,145 +84,15 @@ const GridVideo = (props: GridVideoProps) => {
     () => layout(users.length, isDesktop),
     [users.length, isDesktop],
   );
+
+  const videoArray = Videos({setLayout, dims, layout: Layout.Grid});
   return (
     <View
       style={[style.full, {paddingHorizontal: isDesktop ? 50 : 0}]}
       onLayout={onLayout}>
       {matrix.map((r, ridx) => (
         <View style={style.gridRow} key={ridx}>
-          {r.map((c, cidx) => (
-            <Pressable
-              onPress={() => {
-                if (!(ridx === 0 && cidx === 0)) {
-                  dispatch({
-                    type: 'SwapVideo',
-                    value: [users[ridx * dims.c + cidx]],
-                  });
-                }
-                props.setLayout(Layout.Pinned);
-              }}
-              style={{
-                flex: Platform.OS === 'web' ? 1 / dims.c : 1,
-                marginHorizontal: 'auto',
-              }}
-              key={cidx}>
-              <View style={style.gridVideoContainerInner}>
-                <NetworkQualityPill
-                  networkStat={
-                    // When no network quality reported and if user has no stream
-                    // published show "unsupported" else show "loading"
-                    networkQualityStat[users[ridx * dims.c + cidx].uid]
-                      ? networkQualityStat[users[ridx * dims.c + cidx].uid]
-                      : users[ridx * dims.c + cidx].audio ||
-                        users[ridx * dims.c + cidx].video
-                      ? 8
-                      : 7
-                  }
-                  primaryColor={primaryColor}
-                  rootStyle={{top: 5, left: 5}}
-                />
-                <ScreenShareNotice uid={users[ridx * dims.c + cidx].uid} />
-                <MaxVideoView
-                  fallback={() => {
-                    if (users[ridx * dims.c + cidx].uid === 'local') {
-                      return FallbackLogo(userList[localUid]?.name);
-                    } else if (
-                      String(users[ridx * dims.c + cidx].uid)[0] === '1'
-                    ) {
-                      return FallbackLogo('PSTN User');
-                    } else {
-                      return FallbackLogo(
-                        userList[users[ridx * dims.c + cidx]?.uid]?.name,
-                      );
-                    }
-                  }}
-                  user={users[ridx * dims.c + cidx]}
-                  key={users[ridx * dims.c + cidx].uid}
-                />
-                <View
-                  style={{
-                    zIndex: 5,
-                    marginTop: -30,
-                    backgroundColor: $config.SECONDARY_FONT_COLOR + 'bb',
-                    alignSelf: 'flex-end',
-                    paddingHorizontal: 8,
-                    height: 30,
-                    borderTopLeftRadius: 15,
-                    borderBottomRightRadius: 15,
-                    // marginHorizontal: 'auto',
-                    maxWidth: '100%',
-                    flexDirection: 'row',
-                    // alignContent: 'flex-end',
-                    // width: '100%',
-                    // alignItems: 'flex-start',
-                  }}>
-                  {/* <View style={{alignSelf: 'flex-end', flexDirection: 'row'}}> */}
-                  <View style={[style.MicBackdrop]}>
-                    <ImageIcon
-                      name={
-                        users[ridx * dims.c + cidx].audio ? 'mic' : 'micOff'
-                      }
-                      color={
-                        users[ridx * dims.c + cidx].audio ? primaryColor : 'red'
-                      }
-                      style={style.MicIcon}
-                    />
-                    {/* <Image
-                      source={{
-                        uri: users[ridx * dims.c + cidx].audio
-                          ? icons.mic
-                          : icons.micOff,
-                      }}
-                      style={[
-                        style.MicIcon,
-                        {
-                          tintColor: users[ridx * dims.c + cidx].audio
-                            ? primaryColor
-                            : 'red',
-                        },
-                      ]}
-                      resizeMode={'contain'}
-                    /> */}
-                  </View>
-                  <View style={{flex:1}}>
-                    <TextWithTooltip 
-                      value={users[ridx * dims.c + cidx].uid === 'local'
-                      ? userList[localUid]
-                        ? userList[localUid].name + ' '
-                        : 'You '
-                      : userList[users[ridx * dims.c + cidx].uid]
-                      ? userList[users[ridx * dims.c + cidx].uid].name + ' '
-                      : users[ridx * dims.c + cidx].uid === 1
-                      ? (userList[localUid]?.name + "'s screen ")
-                      : String(users[ridx * dims.c + cidx].uid)[0] === '1'
-                      ? 'PSTN User '
-                      : 'User '}
-                      style={
-                        {
-                          color: $config.PRIMARY_FONT_COLOR,
-                          lineHeight: 30,
-                          fontSize: RFValue(14, height > width ? height : width),
-                          fontWeight: '700',
-                          flexShrink: 1,
-                          // width: '100%',
-                          // alignSelf: 'stretch',
-                          // textAlign: 'center',
-                        }
-                      }
-                    />
-                  </View>
-                  {/* </View> */}
-                  {/* {console.log(
-                    '!nax',
-                    userList,
-                    userList[users[ridx * dims.c + cidx].uid],
-                    userList[localUid],
-                    users[ridx * dims.c + cidx].uid,
-                  )} */}
-                </View>
-              </View>
-            </Pressable>
-          ))}
+          {r.map((c, cidx) => videoArray[ridx * dims.c + cidx])}
         </View>
       ))}
     </View>
