@@ -16,7 +16,8 @@ import {RtcConfigure} from '../.././../agora-rn-uikit';
 import {PropsProvider} from '../.././../agora-rn-uikit';
 
 import PinnedVideo from '../.././components/PinnedVideo';
-import GridVideo from '../.././components/GridVideo';
+// import GridVideo from '../.././components/GridVideo';
+import GridVideo from '../.././components/POC_GridVideo_Alt';
 import {ParticipantsView, SettingsView, Chat, Controls, Navbar} from './index';
 import styles from '../.././components/styles';
 import {useParams, useHistory} from '../.././components/Router';
