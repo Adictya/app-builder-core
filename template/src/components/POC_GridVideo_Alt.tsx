@@ -40,7 +40,7 @@ interface GridVideoProps {
 }
 
 const GridVideo = ({setLayout}: GridVideoProps) => {
-  const {totalUsers, getVideoArray} = useVideoArrays();
+  const {totalUsers, getVideoArray} = useVideoArrays({activeLayout:Layout.Grid});
 
   let onLayout = (e: any) => {
     setDim([e.nativeEvent.layout.width, e.nativeEvent.layout.height]);

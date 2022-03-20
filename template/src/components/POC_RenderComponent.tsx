@@ -4,12 +4,20 @@ import {MinVideoRenderer, MaxVideoRenderer} from './POC_PinnedVideoRenderer';
 import GridVideoRenderer from './POC_GridVideoRenderer';
 import Layout from '../subComponents/LayoutEnum';
 
-const RenderComponent = (
+export type RenderComponentType = (
   data: UidInterface,
   index: number,
   isMax: boolean,
   props: any,
-  activeLayout: Layout
+  activeLayout: Layout,
+) => Element | undefined | JSX.Element;
+
+const RenderComponent: RenderComponentType = (
+  data,
+  index,
+  isMax,
+  props,
+  activeLayout,
 ) => {
   switch (data.type) {
     case 'RemoteVideo':

@@ -21,6 +21,7 @@ import {
 } from 'react-native';
 import {layoutProps} from '../../theme.json';
 const {topPinned} = layoutProps;
+import Layout from '../subComponents/LayoutEnum';
 
 const PinnedVideo = ({Min, Max}) => {
   const {height, width} = useWindowDimensions();
@@ -86,6 +87,7 @@ const PinnedVideo = ({Min, Max}) => {
               : {flex: 1}
           }>
           <Min
+            layout={Layout.Pinned}
             {...{
               isSidePinnedlayout,
               dim,
@@ -103,7 +105,7 @@ const PinnedVideo = ({Min, Max}) => {
               : style.width80
             : style.flex4
         }>
-        <Max />
+        <Max layout={Layout.Pinned} />
       </View>
     </View>
   );

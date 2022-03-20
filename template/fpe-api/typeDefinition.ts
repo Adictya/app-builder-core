@@ -11,6 +11,7 @@
 */
 import React from 'react';
 import { channelMessage, chatInputInterface } from '../src/components/ChatContext';
+import { RenderComponentType } from '../src/components/POC_RenderComponent';
 
 //todo:hari define AnyReactComponent support any react component
 export type AnyReactComponent = React.FC<any>
@@ -36,6 +37,7 @@ export interface VideoCallInterface {
   participantsPanel?: AnyReactComponent;
   bottomBar?: AnyReactComponent;
   chat?: ChatCmpInterface | AnyReactComponent;
+  renderComponent?: RenderComponentType;
 }
 
 export type ComponentsInterface ={

@@ -154,7 +154,6 @@ const MinVideoRenderer = ({
   const {userList, localUid} = useContext(chatContext);
   const {primaryColor} = useContext(ColorContext);
   const {isSidePinnedlayout, dim, height, width} = viewProps;
-  console.log('Pinned',viewProps)
   const networkQualityStat = useContext(networkQualityContext);
 
   return (

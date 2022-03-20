@@ -5,6 +5,7 @@ export {RtcContext, MinUidContext, MaxUidContext, LocalUserContext, PropsContext
 export {default as ChatContext} from '../src/components/ChatContext';
 export {default as DeviceContext} from '../src/components/DeviceContext';
 export {default as StorageContext} from '../src/components/StorageContext';
+export {default as ColorContext} from '../src/components/ColorContext';
 
 /**
  * UI contexts
